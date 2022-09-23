@@ -1,0 +1,41 @@
+.container {
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    background-image: url("../../assets//images//trip.jpeg");
+    background-size: cover;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    min-height: 140px;
+    height: fit-content;
+    max-width: 900px;
+    background-color: rgba(240, 255, 255, 0.8);
+    border-radius: 5px;
+    padding: 45px;
+    gap: 20px
+}
+
+.selectInputContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 30px;
+}
+
+.selectInput {
+    width: 175px;
+}
+
+.datePickerSection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}

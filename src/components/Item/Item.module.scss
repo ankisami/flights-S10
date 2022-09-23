@@ -1,0 +1,48 @@
+.container {
+    min-height: 45px;
+    max-width: 700px;
+    padding: 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s;
+    &:hover {
+        animation: 3s slidein;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    }
+}
+
+.headerLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.headerRight {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+    gap: 10px;
+}
+
+.warningMessage {
+    color: red;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.stopOvers {
+    gap: 10px;
+}
+
+.reverseIcon {
+    transform: rotate(90deg);
+}
+
+.title {
+    font: bold 16px/18px "Roboto", sans-serif;
+    margin: 0;
+}

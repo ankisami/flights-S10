@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    background-color: rgb(244, 244, 244);
+    height: 100vh;
+}
+
+.title {
+    min-width: fit-content;
+}
+
+.progress {
+    display: block;
+    margin: auto;
+    align-self: center;
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(300px, 1fr));
+    grid-gap: 20px;
+}
