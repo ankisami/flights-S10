@@ -9,3 +9,5 @@ Lancement du projet :
 
 - yarn
 - yarn start
+
+Chosir les destinations : JFK - CDG pour avoir une liste de vol

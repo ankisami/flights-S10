@@ -9,6 +9,7 @@ import { useForm, Controller } from "react-hook-form";
 import dayjs from "dayjs";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { Alert } from "@mui/material";
 
 type FormInputs = {
   departureAirport: string;
@@ -41,6 +42,7 @@ type FormInputs = {
 const HomePage = () => {
   const navigate = useNavigate();
   const [airports, setAirports] = useState<Airport[]>();
+  const [alert, setAlert] = useState({ isOpen: false, message: "" });
 
   const defaultValues = {
     departureAirport: "",
@@ -69,10 +71,14 @@ const HomePage = () => {
 
   const handleGetAirports = async () => {
     try {
-      const { data } = await getAirports();
-      setAirports(data);
+      const data = await getAirports();
+      setAirports(data.data);
     } catch (error) {
-      console.error("error", error);
+      setAlert({
+        isOpen: true,
+        message: "Impossible de récupérer la liste des airoports",
+      });
+      console.error("error for get Airports list", error);
     }
   };
 
@@ -175,6 +181,8 @@ const HomePage = () => {
           disabled={!isValid}
         />
       </form>
+
+      {alert.isOpen && <Alert severity="error">{alert.message}</Alert>}
     </div>
   );
 };

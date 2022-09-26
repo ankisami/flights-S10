@@ -96,7 +96,7 @@ const BookingPage = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Liste de vols</h1>
+      <h1 className={styles.title}>Liste des vols</h1>
 
       {!flights && !error && <CircularProgress className={styles.progress} />}
 
