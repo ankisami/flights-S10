@@ -1,16 +1,17 @@
 import React from "react";
 import styles from "./Button.module.scss";
 
-type Props = {
+type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   title: string;
-  onSubmit: () => void;
+  className?: string;
+  isLoading?: boolean;
 };
 
-const Button = ({ title, onSubmit }: Props) => {
+const Button = ({ title, className, isLoading, ...props }: Props) => {
   return (
-    <div className={styles.btn} onClick={onSubmit}>
+    <button className={`${styles.btn} ${className} `} {...props}>
       {title}
-    </div>
+    </button>
   );
 };
 

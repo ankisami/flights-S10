@@ -2,6 +2,7 @@
     min-width: 100vw;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: rgb(255, 255, 255);
@@ -10,16 +11,32 @@
 }
 
 .form {
+    position: relative;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     min-height: 140px;
     height: fit-content;
+    min-height: 300px;
+    min-width: 350px;
     max-width: 900px;
     background-color: rgba(240, 255, 255, 0.8);
-    border-radius: 5px;
-    padding: 45px;
-    gap: 20px
+    border-radius: 0 5px 5px 5px;
+    padding: 10px 25px;
+    gap: 30px;
+    justify-content: space-around;
+}
+
+.formLabel {
+    font: bold 16px/18px "Roboto", sans-serif;
+    position: absolute;
+    top: -38px;
+    left: 0px;
+    padding: 10px;
+    width: 150px;
+    background-color: rgba(240, 255, 255, 0.8);
+    margin: 0;
+    text-align: center;
 }
 
 .selectInputContainer {
@@ -38,4 +55,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
+}
+
+.formBtn {
+    align-self: flex-end;
 }

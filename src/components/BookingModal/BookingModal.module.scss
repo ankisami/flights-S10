@@ -15,6 +15,8 @@
     max-width: 1000px;
     width: 90%;
     min-height: 350px;
+    max-height: 800px;
+    overflow: scroll;
     background-color: rgb(237, 237, 237);
     border-radius: 8px;
 }
@@ -38,4 +40,16 @@
 
 .selectType {
     width: 150px
+}
+
+.passengerSection {
+    border-width: 1px 0 1px 0;
+    border-style: solid;
+    border-color: rgb(48, 95, 95);
+    padding: 10px;
+}
+
+.btn {
+    width: fit-content;
+    margin: 30px auto;
 }

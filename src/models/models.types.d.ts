@@ -11,18 +11,28 @@ export type Flight = {
   arrival: Airport;
   price: number;
   stopOver: Airport[];
+  provider: string;
 };
 
 export type Customer = {
-  id: number;
+  id: number | null;
   firstName: string;
   lastName: string;
   address: string;
-  birthday: Date;
+  birthday: string;
 };
 
 export type OrderFlight = {
   date: stirng;
+  customer: Customer;
+  flightId: number | null;
+  persons: Passenger[];
+  currencyId: number;
+};
+
+export type Passenger = {
+  passenger: Customer;
+  optionsId: number[];
 };
 
 // export type Flight = {
@@ -55,12 +65,6 @@ export enum OptionType {
   "ChampagneOnBoard",
   "LoungeAccess",
 }
-
-export type Customer = {
-  id: number;
-  name: string;
-  Address: string;
-};
 
 export type Booking = {
   id: number;
