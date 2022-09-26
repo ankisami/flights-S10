@@ -37,7 +37,7 @@ const BookingModal = ({
   departAirport,
   departureDate,
 }: Props) => {
-  const [flightOrder, setFlightOrder] = useState<OrderFlight>({
+  const defaultOverFlight = {
     date: departureDate,
     currencyId: 1,
     customer: {
@@ -49,9 +49,13 @@ const BookingModal = ({
     },
     flightId: null,
     persons: [],
-  });
+  };
 
+  const [alert, setAlert] = useState({ isOpen: false, message: "" });
+  const [flightOrder, setFlightOrder] =
+    useState<OrderFlight>(defaultOverFlight);
   const navigation = useNavigate();
+
   const initNbPassager = () => {
     let initPassengers: Passenger[] = [];
     for (let index = 0; index < (nbPassagers || 0); index++) {
@@ -75,6 +79,21 @@ const BookingModal = ({
 
   const { handleSubmit } = useForm<FormInputs>();
 
+  const checkIfDataIsValid = (): boolean => {
+    let isValid = true;
+    flightOrder.persons.forEach((person) => {
+      if (
+        !person.passenger.firstName ||
+        !person.passenger.lastName ||
+        !person.passenger.birthday ||
+        !person.passenger.address
+      ) {
+        isValid = false;
+      }
+    });
+    return isValid;
+  };
+
   const onSubmit: SubmitHandler<FormInputs> = (_, e) => {
     e?.stopPropagation();
     e?.preventDefault();
@@ -83,6 +102,10 @@ const BookingModal = ({
     data.customer = data.persons[0].passenger;
     data.flightId = flightId;
 
+    if (!checkIfDataIsValid()) {
+      setAlert({ isOpen: true, message: "Veuillez remplir tous les champs" });
+      return;
+    }
     try {
       postFlight(data);
       console.log("Donné envoyé");
@@ -105,13 +128,10 @@ const BookingModal = ({
   ) => {
     const { name, value } = e.target;
     let modifyPerson: Passenger = { ...flightOrder.persons[id] };
-    if (name === "firstName" || name === "lastName" || name === "address") {
+    if (name === "firstName" || name === "lastName" || name === "address")
       modifyPerson.passenger[name] = value;
-    }
-
     let allPersons = [...flightOrder.persons];
     allPersons[id] = modifyPerson;
-
     setFlightOrder((prev) => ({ ...prev, persons: allPersons }));
   };
 
@@ -199,6 +219,7 @@ const BookingModal = ({
             className={styles.btn}
             onSubmit={handleSubmit(onSubmit)}
           />
+          {alert.isOpen && <Alert severity="warning">{alert.message}</Alert>}
         </form>
       </Modal>
     </>

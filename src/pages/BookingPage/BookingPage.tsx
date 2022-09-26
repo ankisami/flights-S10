@@ -121,6 +121,8 @@ const BookingPage = () => {
         </>
       )}
 
+      {!error && flights?.length === 0 && <div>Aucun vol disponible</div>}
+
       {error && (
         <Alert severity="error">Un problème est surevenu avec l'API!</Alert>
       )}
