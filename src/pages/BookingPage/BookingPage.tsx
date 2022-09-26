@@ -96,7 +96,6 @@ const BookingPage = () => {
 
   return (
     <div className={styles.container}>
-      <Header />
       <h1 className={styles.title}>Liste de vols</h1>
 
       {!flights && !error && <CircularProgress className={styles.progress} />}

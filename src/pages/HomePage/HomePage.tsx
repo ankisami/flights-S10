@@ -17,30 +17,30 @@ type FormInputs = {
   passagers: number;
 };
 
-const aiportListMocked = [
-  {
-    id: 0,
-    name: "aaaa",
-    country: "",
-    address: "",
-  },
-  {
-    id: 1,
-    name: "bbbb",
-    country: "",
-    address: "",
-  },
-  {
-    id: 2,
-    name: "cccc",
-    country: "",
-    address: "",
-  },
-];
+// const aiportListMocked = [
+//   {
+//     id: 0,
+//     name: "aaaa",
+//     country: "",
+//     address: "",
+//   },
+//   {
+//     id: 1,
+//     name: "bbbb",
+//     country: "",
+//     address: "",
+//   },
+//   {
+//     id: 2,
+//     name: "cccc",
+//     country: "",
+//     address: "",
+//   },
+// ];
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [airports, setAirports] = useState<Airport[]>(aiportListMocked);
+  const [airports, setAirports] = useState<Airport[]>();
 
   const defaultValues = {
     departureAirport: "",
@@ -84,8 +84,7 @@ const HomePage = () => {
     const { departureAirport, arrivalAirport, passagers, departureDate } =
       formData;
     const departureDateFormated = dayjs(departureDate).format("YYYY-MM-DD");
-    //TODO : Do the redirection here
-    const navigation = navigate(
+    navigate(
       `/booking?departAirport=${departureAirport}&arrivalAirport=${arrivalAirport}&nbPersons=${passagers}&departureDate=${departureDateFormated}`
     );
   };
