@@ -4,8 +4,57 @@ import { Outlet, useSearchParams } from "react-router-dom";
 import { Flight } from "../../models/models.types";
 import { getFlights } from "../../services/flight";
 import { Alert, CircularProgress } from "@mui/material";
-import { Item } from "../../components";
+import { Header, Item } from "../../components";
 import { AxiosError } from "axios";
+
+// const aiportListMocked = [
+//   {
+//     id: 0,
+//     name: "aaaa",
+//     country: "",
+//     address: "",
+//   },
+//   {
+//     id: 1,
+//     name: "bbbb",
+//     country: "",
+//     address: "",
+//   },
+//   {
+//     id: 2,
+//     name: "cccc",
+//     country: "",
+//     address: "",
+//   },
+// ];
+
+// const flightsListMocked: Flight[] = [
+//   {
+//     id: 0,
+//     depart: {
+//       id: 0,
+//       name: "aaaa",
+//       country: "",
+//       address: "",
+//     },
+//     arrival: {
+//       id: 1,
+//       name: "bbbb",
+//       country: "",
+//       address: "",
+//     },
+//     price: 500,
+//     stopOver: [
+//       {
+//         id: 2,
+//         name: "cccc",
+//         country: "",
+//         address: "",
+//       },
+//     ],
+//     provider: "",
+//   },
+// ];
 
 const BookingPage = () => {
   const [flights, setFlights] = useState<Flight[]>();
@@ -15,25 +64,29 @@ const BookingPage = () => {
   useEffect(() => {
     const departAirport = searchParams.get("departAirport");
     const arrivalAirport = searchParams.get("arrivalAirport");
+    const nbPersons = searchParams.get("nbPersons");
+    const departureDate = searchParams.get("departureDate");
 
-    if (departAirport && arrivalAirport)
-      handleGetFlights(departAirport, arrivalAirport, 5);
+    if (departAirport && arrivalAirport && departureDate && nbPersons)
+      handleGetFlights(departAirport, arrivalAirport, nbPersons, departureDate);
   }, [searchParams]);
 
   const handleGetFlights = async (
     departureAirport: string,
     arrivalAirport: string,
-    nbPassagers: number
+    nbPassagers: string,
+    departureDate: string
   ) => {
     setError("");
     try {
       const { data } = await getFlights(
         departureAirport,
         arrivalAirport,
-        nbPassagers
+        nbPassagers,
+        departureDate
       );
       setFlights(data);
-      console.log("data", data);
+      // setFlights(flightsListMocked);
     } catch (e) {
       const error = e as AxiosError;
       console.log("error", error);
@@ -41,9 +94,9 @@ const BookingPage = () => {
     }
   };
 
-  console.log("flights", flights);
   return (
     <div className={styles.container}>
+      <Header />
       <h1 className={styles.title}>Liste de vols</h1>
 
       {!flights && !error && <CircularProgress className={styles.progress} />}
@@ -56,7 +109,14 @@ const BookingPage = () => {
           </h3>
           <div className={styles.gridContainer}>
             {flights?.map((flight: Flight) => (
-              <Item key={flight.id} flight={flight} />
+              <Item
+                key={flight.id}
+                departAirport={searchParams.get("departAirport")}
+                arrivalAirport={searchParams.get("arrivalAirport")}
+                nbPassagers={Number(searchParams.get("nbPersons") || 0)}
+                departureDate={searchParams.get("departureDate")}
+                flight={flight}
+              />
             ))}
           </div>
         </>

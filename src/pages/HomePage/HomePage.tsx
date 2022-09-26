@@ -7,6 +7,8 @@ import { getAirports } from "../../services/flight";
 import ItemBooking from "../../components/OptionsBooking/ItemBooking/ItemBooking";
 import { useForm, Controller } from "react-hook-form";
 import dayjs from "dayjs";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 type FormInputs = {
   departureAirport: string;
@@ -46,6 +48,12 @@ const HomePage = () => {
     departureDate: new Date(),
     passagers: 1,
   };
+  const schema = yup
+    .object({
+      departureAirport: yup.string().required("Veuillez choisir un aéroport"),
+      arrivalAirport: yup.string().required("Veuillez choisir un aéroport"),
+    })
+    .required();
 
   const {
     control,
@@ -53,7 +61,11 @@ const HomePage = () => {
     watch,
     setValue,
     formState: { isValid },
-  } = useForm<FormInputs>({ defaultValues: defaultValues });
+  } = useForm<FormInputs>({
+    mode: "onChange",
+    defaultValues: defaultValues,
+    resolver: yupResolver(schema),
+  });
 
   const handleGetAirports = async () => {
     try {
@@ -71,9 +83,9 @@ const HomePage = () => {
   const onSubmit = (formData: FormInputs) => {
     const { departureAirport, arrivalAirport, passagers, departureDate } =
       formData;
-    if (!isValid) return;
     const departureDateFormated = dayjs(departureDate).format("YYYY-MM-DD");
-    navigate(
+    //TODO : Do the redirection here
+    const navigation = navigate(
       `/booking?departAirport=${departureAirport}&arrivalAirport=${arrivalAirport}&nbPersons=${passagers}&departureDate=${departureDateFormated}`
     );
   };
@@ -87,15 +99,17 @@ const HomePage = () => {
       : setValue("passagers", nbPassagers - 1);
   };
 
-  console.log("watch()", watch());
-
   return (
     <div className={styles.container}>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <h4 className={styles.formLabel}>Acheter un billet</h4>
         <div className={styles.selectInputContainer}>
           <Controller
             control={control}
             name="departureAirport"
+            rules={{
+              required: true,
+            }}
             render={({ field }) => (
               <SelectInput
                 className={styles.selectInput}
@@ -110,6 +124,9 @@ const HomePage = () => {
           <Controller
             name="arrivalAirport"
             control={control}
+            rules={{
+              required: true,
+            }}
             render={({ field }) => (
               <SelectInput
                 className={styles.selectInput}
@@ -127,15 +144,6 @@ const HomePage = () => {
           />
         </div>
 
-        {/* 
-        <Checkbox
-          label="Aller simple"
-          checked={booking.simpleFlight}
-          onChange={(e, checked) =>
-            setBooking((prev) => ({ ...prev, simpleFlight: checked }))
-          }
-        /> */}
-
         <div className={styles.datePickerSection}>
           <Controller
             name="departureDate"
@@ -148,37 +156,25 @@ const HomePage = () => {
               />
             )}
           />
-          {/* 
-          {!booking.simpleFlight && (
-            <DatePicker
-              label="Retour"
-              date={booking.arrivalDate}
-              onChange={(value) => {
-                if (value) setBooking((prev) => ({ ...prev, date: value }));
-              }}
-            />
-          )} */}
+          <Controller
+            name="passagers"
+            control={control}
+            render={({ field }) => (
+              <ItemBooking
+                title="Passagers"
+                name="adults"
+                handlePassagers={(e) => handlePassagers(e)}
+                number={field.value}
+              />
+            )}
+          />
         </div>
 
-        {/* <OptionsBooking
-          passagers={booking.passagers}
-          handlePassagers={handlePassagers}
-        /> */}
-
-        <Controller
-          name="passagers"
-          control={control}
-          render={({ field }) => (
-            <ItemBooking
-              title="Passagers"
-              name="adults"
-              handlePassagers={(e) => handlePassagers(e)}
-              number={field.value}
-            />
-          )}
+        <Button
+          title="Rechercher"
+          className={styles.formBtn}
+          disabled={!isValid}
         />
-
-        <Button title="Rechercher" onSubmit={handleSubmit(onSubmit)} />
       </form>
     </div>
   );
